@@ -4,7 +4,7 @@ local_dir   = '/home/multiangle/coding'
 
 
 
-ftp_ip      = '119.29.18.223'
-ftp_user    = 'ftps'
-ftp_pwd     = 'adqgdva35x'
+ftp_ip      = 'ip'
+ftp_user    = 'user'
+ftp_pwd     = 'pwd'
 ftp_dir     = '/home/ftps/syncdir/'
