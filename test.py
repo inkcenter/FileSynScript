@@ -69,8 +69,15 @@ def parse_ftp_info(line):
     current_year = 2016
     line = re.sub(r"\s+",' ',line)
     cutted_line = line.split(' ')
+    if cutted_line.__len__()>9: # 如果文件中有空格
+        name = ''
+        for i in range(8,cutted_line.__len__()):
+            name += cutted_line[i]+' '
+        name = name[:-1]
+    else:
+        name = cutted_line[-1]
     ret['auth']         = cutted_line[0]
-    ret['name']         = cutted_line[-1]
+    ret['name']         = name
     ret['time_str']     = '{y}-{m}-{d}-{t}'.format( y=current_year,
                                                     m=cutted_line[5],
                                                     d=cutted_line[6],
@@ -90,7 +97,7 @@ def pull():
     print('------------------------------------------------')
     print('start pull at {t}\n'.format(t=gen_time()))
     ftp = FTP(config.ftp_ip)
-    ftp.encoding = 'utf-8'
+    ftp.encoding = 'utf-8'  # 这一步很重要，如果没有会导致ftp无法解析中文文件名
     ftp.login(user=config.ftp_user,passwd=config.ftp_pwd)
     remote_files = [x for x in remote_iterator(ftp)]
     local_files = [x for x in local_iterator()]
@@ -250,3 +257,11 @@ def gen_time():
     return time.strftime('%Y-%m-%d %H:%M:%S', t)
 
 push()
+
+# ftp = FTP(config.ftp_ip)
+# ftp.encoding = 'utf-8'
+# ftp.login(user=config.ftp_user,passwd=config.ftp_pwd)
+# for x in remote_iterator(ftp):
+#     print(x)
+    # pass
+
